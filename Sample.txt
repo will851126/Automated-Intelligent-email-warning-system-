@@ -1,0 +1,43 @@
+[{
+  "id": "",
+  "topic": "",
+  "subject": "",
+  "eventType": "",
+  "eventTime": "",
+  "data": {
+    "twin": {
+      "deviceId": "",
+      "etag": "",
+      "deviceEtag": "",
+      "status": "",
+      "statusUpdateTime": "",
+      "connectionState": "",
+      "lastActivityTime": "",
+      "cloudToDeviceMessageCount": 0,
+      "authenticationType": "",
+      "x509Thumbprint": {
+        "primaryThumbprint": null,
+        "secondaryThumbprint": null
+      },
+      "version": 2,
+      "properties": {
+        "desired": {
+          "$metadata": {
+            "$lastUpdated": ""
+          },
+          "$version": 1
+        },
+        "reported": {
+          "$metadata": {
+            "$lastUpdated": ""
+          },
+          "$version": 1
+        }
+      }
+    },
+    "hubName": "",
+    "deviceId": ""
+  },
+  "dataVersion": "",
+  "metadataVersion": ""
+}]

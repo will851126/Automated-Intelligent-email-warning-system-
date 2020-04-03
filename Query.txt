@@ -1,0 +1,33 @@
+--將IoT Hub Device 傳入的數值交予 machinelearning function
+WITH machinelearning AS (
+    SELECT EventEnqueuedUtcTime, temperature, humidity, isRain, machinelearning(temperature, humidity, isRain) as result 
+    from IotInput
+)
+
+--在machinelearning function 得出的降雨率高於五成時交予Service bus
+Select System.Timestamp time, CAST (result.[Scored Probabilities] AS FLOAT ) AS 'probabalities of rain'
+Into MLBusOutput
+From machinelearning
+Where CAST (result.[Scored Probabilities] AS FLOAT ) > 0.5
+     
+--將machinelearning function 得出的結果交予Storage acount   
+Select System.Timestamp time, CAST (result.[temperature] AS FLOAT ) AS 'temperature', CAST (result.[humidity] AS FLOAT ) AS 'humidity', CAST (result.[Scored Probabilities] AS FLOAT ) AS 'probabalities of rain'
+Into MLBlobOutput
+From machinelearning
+
+--將machinelearning function 得出的結果交予PowerBI
+Select System.Timestamp time, CAST (result.[temperature] AS FLOAT ) AS 'temperature', CAST (result.[humidity] AS FLOAT ) AS 'humidity', CAST (result.[Scored Probabilities] AS FLOAT ) AS 'probabalities of rain'
+Into PowerBiOutput
+From machinelearning
+
+--在IoT Hub Device 傳入的溫度高於30度時交予Service Bus
+Select temperature
+Into TempBusOutput
+From IotInput
+Where [temperature] > 30
+
+--將IoT Hub Device 傳入的數值交予Storage account
+Select *
+Into IoTBlobOutput
+From IotInput
+
